@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+           http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.0.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+	<!-- This bean will act as JPA container and inject EntityManager from your 
+		EntityManagerFactory -->
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	<!-- This bean will translate exceptions into spring defined exception hirarchy. -->
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<!-- JPA EntityManagerFactory configuration -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="database">
+					<util:constant static-field="${app.jpa.database}" />
+				</property>
+				<property name="databasePlatform" value="${app.jpa.databasePlatform}" />
+				<property name="generateDdl" value="${app.jpa.generateDdl}" />
+				<property name="showSql" value="${app.jpa.showSql}" />
+			</bean>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="hibernate.format_sql" value="${app.jpa.formatSql}" />
+				<entry key="hibernate.max_fetch_depth" value="${app.jpa.maxFetchDepth}" />
+				<entry key="hibernate.default_schema" value="${app.jpa.defaultSchema}" />
+			</map>
+		</property>
+		<!-- Location of persistence xml for loading entities -->
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"></property>
+	</bean>
+	<!-- Configuration for spring managed data source -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${app.jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${app.jdbc.url}" />
+		<property name="maxPoolSize" value="100"/>
+		<property name="minPoolSize" value="20"/>
+		<property name="acquireIncrement" value="10"/> 
+		<property name="checkoutTimeout" value="60000"/>
+		<property name="debugUnreturnedConnectionStackTraces" value="true"/>
+		<property name="properties">
+			<props>
+				<prop key="user">${app.jdbc.username}</prop>
+				<prop key="password">${app.jdbc.password}</prop>				
+				<prop key="c3p0.acquireRetryAttempts">5</prop>			
+				<prop key="c3p0.idle_test_period">100</prop> <!-- seconds -->			
+			</props>
+		</property>
+	</bean>
+	<!-- ========================= JNDI Data Source Name ========================= 
+		<jee:jndi-lookup id="dataSource" jndi-name="${app.jpa.jndi.name}" resource-ref="true" 
+		/> -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	<!-- Transaction would work provided the service is annotated with @Transacational 
+		annotation -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<!-- Transaction interceptor -->
+</beans>

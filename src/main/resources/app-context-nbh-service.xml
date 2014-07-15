@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<!-- Factory method to create service -->
+	<bean id="buildMetadataMappingServiceFactory"
+		class="com.ebay.impactanalysis.services.BuildMetadataMappingService" />
+	<bean id="buildMetadataMappingService" factory-bean="buildMetadataMappingServiceFactory"
+		factory-method="getBuildMetadataMappingServiceImplPort" />
+	<!-- annotation to add service -->
+	<context:component-scan base-package="com.ebay.rp.service.impl" />
+	<context:component-scan base-package="com.ebay.rp.job" />
+	<context:component-scan base-package="com.ebay.rp.util" />
+	<!-- AOP for services -->
+	<aop:config>
+		<!-- If a service return a type of ServiceResponse, the exception should be convert to ServiceReponseObject -->
+		<aop:aspect id="serviceResponseAspect" ref="serviceResponseInterceptor">
+			<aop:pointcut id="serviceResponseOperation" expression="execution(com.ebay.rp.service.ServiceResponse com.ebay.rp.service.*.*(..))" />
+			<aop:around pointcut-ref="serviceResponseOperation" method="proccess" />
+		</aop:aspect>
+		<!-- AOP for service access -->
+		<aop:aspect id="serviceAccessAspect" ref="serviceAccessInterceptor">
+			<aop:pointcut id="serviceAccessOperation" expression="execution(* com.ebay.rp.service.*.*(..))" />
+			<aop:before pointcut-ref="serviceAccessOperation" method="doAccessCheck" />
+		</aop:aspect>
+		<!-- AOP for service configuration -->
+		<aop:aspect id="serviceConfigurationAspect" ref="serviceConfigurationInterceptor">
+			<aop:pointcut id="serviceOperation" expression="execution(* com.ebay.rp.service.*.*(..)) and
+                    										@annotation(com.ebay.rp.util.ConfigMethod)" />
+			<aop:before pointcut-ref="serviceOperation" method="doAccessCheck" />
+		</aop:aspect>
+	</aop:config>
+</beans>
