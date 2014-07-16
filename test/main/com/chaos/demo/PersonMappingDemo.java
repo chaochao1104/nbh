@@ -24,6 +24,13 @@ public class PersonMappingDemo {
 		
 		session.save(p);
 		transaction.commit();
+		
+		p = (Person) session.get(Person.class, 1L);
+		
+		System.out.println(p.getOid());
+		
 		session.close();
+		
+		
 	}
 }
