@@ -39,5 +39,25 @@
 			</list>
 		</property>
 	</bean>  
-           
+	
+	<!-- DAO -->
+	<bean id="personDao" class="com.nbh.domain.dao.PersonDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- TX -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">  
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<tx:advice transaction-manager="transactionManager" id="tm">  
+		<tx:attributes>  
+			<tx:method name="find*" propagation="REQUIRED"/>  
+		</tx:attributes>  
+	</tx:advice>
+	
+	<aop:config>  
+		<aop:pointcut expression="execution(* com.nbh.domain.dao.*.*(..))" id="tp"/>  
+		<aop:advisor advice-ref="tm" id="ta" pointcut-ref="tp"/>
+	</aop:config>  
 </beans>
