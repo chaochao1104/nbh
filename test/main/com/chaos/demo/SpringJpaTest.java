@@ -19,8 +19,9 @@ public class SpringJpaTest {
 		try {
 			factory = (SessionFactory)context.getBean("sessionFactory");  
 			session = factory.openSession();  
-			Person p = (Person) session.get(Person.class, 1);  
-			System.out.println(p.getIsMale());  
+			Person p = (Person) session.get(Person.class, 1L);  
+			System.out.println(p.getIsMale());
+			System.out.println(p.getWeight());  
 		} catch (BeansException e) {  
 			// TODO Auto-generated catch block  
 			e.printStackTrace();  
