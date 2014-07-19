@@ -24,7 +24,7 @@ public class PersonDao {
 	}
 	
 	public List<Person> findAllPoeple() {
-		List<Person> people = openSession().createQuery("from person").list();
+		List<Person> people = openSession().createQuery("from Person").list();
 		return people;
 	}
 }

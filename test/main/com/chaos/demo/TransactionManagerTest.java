@@ -15,7 +15,7 @@ public class TransactionManagerTest {
 		PersonDao dao = (PersonDao) context.getBean("personDao");
 		List<Person> list = dao.findAllPoeple();
 		for (Person p : list) {
-			System.out.println(p.getWeight());  
+			System.out.println(p.getWeight());
 		}
 	}
 
