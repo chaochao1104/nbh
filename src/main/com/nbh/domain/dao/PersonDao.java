@@ -27,4 +27,9 @@ public class PersonDao {
 		List<Person> people = openSession().createQuery("from Person").list();
 		return people;
 	}
+	
+	public Person findById(long id) {
+		Person p = (Person) openSession().createQuery("from Person where oid=" + id).uniqueResult();
+		return p;
+	}
 }

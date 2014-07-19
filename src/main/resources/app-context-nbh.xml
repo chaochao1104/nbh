@@ -6,8 +6,9 @@
            	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 	
 	<import resource="app-context-nbh-jpa.xml"/>
+	<import resource="app-context-nbh-service.xml"/>
 	<!--  import resource="applicationContext-rp-dao.xml"/>
-	<import resource="applicationContext-rp-service.xml"/>
+	
 	<import resource="applicationContext-rp-cxf.xml"/>-->
 	
 </beans>
