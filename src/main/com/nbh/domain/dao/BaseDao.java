@@ -1,12 +1,9 @@
 package com.nbh.domain.dao;
 
 import java.io.Serializable;
-import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.DetachedCriteria;
 
 public interface BaseDao<T> {
 	
@@ -26,15 +23,10 @@ public interface BaseDao<T> {
 	
 	void merge(T entity);
 	
-	void delete(Serializable id);
+	void deleteById(Serializable id);
 	
 	void delete(T entity);
 	
 	boolean exists(Serializable id);
 	
-	long count(Criteria criteria);
-	
-	List<T> findAll(Criteria criteria);
-	
-	List<T> findAll(DetachedCriteria  detachedCriteria);
 }

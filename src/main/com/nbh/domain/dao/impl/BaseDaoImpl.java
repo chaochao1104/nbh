@@ -49,6 +49,34 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		return (T) openSession().get(getEntityType(), id);
 	}
 
-	
+	@Override
+	public Serializable save(T entity) {
+		return openSession().save(entity);
+	}
+
+	@Override
+	public void update(T entity) {
+		openSession().update(entity);
+	}
+
+	@Override
+	public void merge(T entity) {
+		openSession().merge(entity);
+	}
+
+	@Override
+	public void deleteById(Serializable id) {
+		delete(findById(id));
+	}
+
+	@Override
+	public void delete(T entity) {
+		openSession().delete(entity);
+	}
+
+	@Override
+	public boolean exists(Serializable id) {
+		return null != findById(id);
+	}	
 
 }
