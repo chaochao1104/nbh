@@ -1,4 +1,5 @@
 package com.nbh.domain.entity;
 
-public class BaseEntity {	
+public interface BaseEntity {
+	
 }

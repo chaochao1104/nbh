@@ -27,10 +27,8 @@ public class PersonMappingDemo {
 		
 		p = (Person) session.get(Person.class, 1L);
 		
-		System.out.println(p.getOid());
+		System.out.println(p.getId());
 		
 		session.close();
-		
-		
 	}
 }

@@ -2,13 +2,13 @@ package com.nbh.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nbh.domain.dao.PersonDao;
+import com.nbh.domain.dao.PDao;
 import com.nbh.domain.entity.demo.Person;
 import com.nbh.service.PersonService;
 
 public class PersonServiceImpl implements PersonService {
 	
-	private PersonDao personDao;
+	private PDao personDao;
 			
 	public Person getPerson(String id) { 
 		   System.out.println("person id = " + id);
@@ -16,14 +16,12 @@ public class PersonServiceImpl implements PersonService {
 		   return p;
 	}
 
-
-	
-	public PersonDao getPersonDao() {
+	public PDao getPersonDao() {
 		return personDao;
 	}
 	
 	@Autowired
-	public void setPersonDao(PersonDao personDao) {
+	public void setPersonDao(PDao personDao) {
 		this.personDao = personDao;
 	}
 

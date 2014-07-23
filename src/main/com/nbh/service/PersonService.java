@@ -15,7 +15,7 @@ import com.nbh.service.constants.WebServiceConstants;
 @WebService(serviceName = "personServices", targetNamespace = WebServiceConstants.HOST_ADDRESS + "nbh/spring-cxf-rest/services")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces({ MediaType.APPLICATION_JSON })
-@Path("/persons")
+@Path("/people")
 public interface PersonService {
 
 	@GET

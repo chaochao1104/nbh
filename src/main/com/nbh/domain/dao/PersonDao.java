@@ -1,35 +1,10 @@
 package com.nbh.domain.dao;
 
-import java.util.List;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 
 import com.nbh.domain.entity.demo.Person;
 
-public class PersonDao {
+@Repository
+public interface PersonDao extends BaseDao<Person> {
 	
-	private SessionFactory sessionFactory;
-
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-	
-	public Session openSession() {
-		return sessionFactory.openSession();
-	}
-	
-	public List<Person> findAllPoeple() {
-		List<Person> people = openSession().createQuery("from Person").list();
-		return people;
-	}
-	
-	public Person findById(long id) {
-		Person p = (Person) openSession().createQuery("from Person where oid=" + id).uniqueResult();
-		return p;
-	}
 }

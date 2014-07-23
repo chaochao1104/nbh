@@ -14,16 +14,16 @@ import javax.persistence.Table;
 @Table(name="PERSON")
 public class Person {
 
-	private Long oid;
+	private Long id;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getOid() {
-		return oid;
+	public Long getId() {
+		return id;
 	}
 
-	public void setOid(Long oid) {
-		this.oid = oid;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	private String description;

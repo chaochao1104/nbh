@@ -17,7 +17,7 @@ public class SpringJpaTest {
 		SessionFactory factory = null;
 		Session session=null;
 		try {
-			factory = (SessionFactory)context.getBean("sessionFactory");  
+			factory = (SessionFactory) context.getBean("sessionFactory");  
 			session = factory.openSession();  
 			Person p = (Person) session.get(Person.class, 1L);  
 			System.out.println(p.getIsMale());
