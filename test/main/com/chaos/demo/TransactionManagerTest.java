@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.nbh.domain.dao.GoodsDao;
 import com.nbh.domain.dao.PDao;
 import com.nbh.domain.dao.PersonDao;
 import com.nbh.domain.entity.demo.Person;
+import com.nbh.domain.entity.profile.Goods;
 
 public class TransactionManagerTest {
 
@@ -25,7 +27,7 @@ public class TransactionManagerTest {
 	}
 	
 	@SuppressWarnings("resource")
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Throwable {
 		ApplicationContext context = new ClassPathXmlApplicationContext("app-context-nbh.xml");
 		PDao dao = (PDao) context.getBean("pDao");
 		List<Person> list = dao.findAllPoeple();
@@ -38,6 +40,13 @@ public class TransactionManagerTest {
 		PersonDao personDao = (PersonDao) context.getBean("personDao");
 		Person person = personDao.findById(1L);
 		System.out.println(person.getId());
+		
+		GoodsDao goodsDao = (GoodsDao) context.getBean("GoodsDao");
+		Goods goods = goodsDao.findById(1L);
+		System.out.println(goods.getName());
+		
+		goods.setDescription("À­À­°¡");
+		goodsDao.update(goods);
 		
 	}
 

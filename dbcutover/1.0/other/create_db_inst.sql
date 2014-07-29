@@ -1,1 +1,1 @@
-create database nbh;
+create database nbh CHARACTER SET utf8;

@@ -3,13 +3,17 @@ package com.nbh.domain.dao.impl;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nbh.domain.dao.BaseDao;
 
+@Transactional
 public class BaseDaoImpl<T> implements BaseDao<T> {
 
 	protected Class<T> entityType;
@@ -27,11 +31,6 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		return entityType;
 	}
 	
-	@Override
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
 	@Autowired
 	@Override
 	public void setSessionFactory(SessionFactory sessionFactory) {
@@ -39,29 +38,24 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 	
 	@Override
-	public Session openSession() {
-		return sessionFactory.openSession();
+	public Session getSession() {
+		return sessionFactory.getCurrentSession();
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public T findById(Serializable id) {
-		return (T) openSession().get(getEntityType(), id);
+		return (T) getSession().get(getEntityType(), id);
 	}
 
 	@Override
 	public Serializable save(T entity) {
-		return openSession().save(entity);
+		return getSession().save(entity);
 	}
 
 	@Override
 	public void update(T entity) {
-		openSession().update(entity);
-	}
-
-	@Override
-	public void merge(T entity) {
-		openSession().merge(entity);
+		getSession().merge(entity);
 	}
 
 	@Override
@@ -71,12 +65,19 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
 	@Override
 	public void delete(T entity) {
-		openSession().delete(entity);
+		getSession().delete(entity);
 	}
 
 	@Override
 	public boolean exists(Serializable id) {
 		return null != findById(id);
-	}	
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> findAll() {
+		Criteria criteria = getSession().createCriteria(getEntityType());
+		return (List<T>) criteria.list();
+	}
 
 }

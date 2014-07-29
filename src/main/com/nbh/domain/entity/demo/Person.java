@@ -9,23 +9,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.nbh.domain.entity.BaseEntityHavingId;
+
 
 @Entity
-@Table(name="PERSON")
-public class Person {
-
+@Table(name = "PERSON")
+public class Person implements BaseEntityHavingId {
+	
 	private Long id;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
 	private String description;
 
 	private Date birthDate;
@@ -34,7 +37,7 @@ public class Person {
 	
 	private Boolean isMale;
 
-	@Column(name="description", length=65535)
+	@Column(name = "description", length=65535)
 	public String getDescription() {
 		return description;
 	}
@@ -43,7 +46,7 @@ public class Person {
 		this.description = description;
 	}
 
-	@Column(name="birth_date")
+	@Column(name = "birth_date")
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -52,7 +55,7 @@ public class Person {
 		this.birthDate = birthDate;
 	}
 
-	@Column(name="weight")
+	@Column(name = "weight")
 	public Double getWeight() {
 		return weight;
 	}
@@ -61,7 +64,7 @@ public class Person {
 		this.weight = weight;
 	}
 	
-	@Column(name="is_male")
+	@Column(name = "is_male")
 	public Boolean getIsMale() {
 		return isMale;
 	}
